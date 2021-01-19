@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 using System.Security.Principal;
 using System.Security.Cryptography.X509Certificates;
 using System.IO;
+using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 /*
- * Author: Lemongrasshat (lemongrasshat@gmail.com)
- * Program: Command line backup application for Don't starve together.
- *Todo:
- * Shortcut key setting to take backup while program is running in background
- */
+* Author: Lemongrasshat (lemongrasshat@gmail.com)
+* Program: Command line backup application for Don't starve together.
+*Todo:
+* Shortcut key setting to take backup while program is running in background
+*/
 namespace backupdstapplication
 {
     class DSTBACKUP
@@ -20,11 +22,14 @@ namespace backupdstapplication
         private Dictionary<string, int> savenames = new Dictionary<string, int>();
         private string Currentusername = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
         string[] CleanUsername;
-
+        private int directoryCount;
+        private string[] directoryInfo;
+        private Boolean verboseflag=false;
         //Code for copying save folder to backup folder.
         //Source : https://docs.microsoft.com/en-us/dotnet/standard/io/how-to-copy-directories
         private static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
         {
+            try{
             // Get the subdirectories for the specified directory.
             DirectoryInfo dir = new DirectoryInfo(sourceDirName);
 
@@ -57,16 +62,29 @@ namespace backupdstapplication
                     DirectoryCopy(subdir.FullName, tempPath, copySubDirs);
                 }
             }
+            }
+            catch(Exception error)
+            {
+             Console.WriteLine("File Does not exist or directory related error");
+                Console.WriteLine("Verbose Error:" + error.Message);
+            }
         }
+
         // Function to find total no Cluster of saves from documents folder
         private int CheckBackupSaves()
         {
             
             CleanUsername = this.Currentusername.Split('\\');
             int ClusterCount = 0;
-            int directoryCount = System.IO.Directory.GetDirectories(@"C:\Users\"+this.CleanUsername[1]+@"\Documents\Klei\DoNotStarveTogether").Length;
-            string[] directoryInfo = System.IO.Directory.GetDirectories(@"C:\Users\" + this.CleanUsername[1] + @"\Documents\Klei\DoNotStarveTogether");
-
+            try{
+             directoryCount = System.IO.Directory.GetDirectories(@"C:\Users\"+this.CleanUsername[1]+@"\Documents\Klei\DoNotStarveTogether").Length;
+             directoryInfo = System.IO.Directory.GetDirectories(@"C:\Users\" + this.CleanUsername[1] + @"\Documents\Klei\DoNotStarveTogether");
+                }
+            catch(Exception error)
+            {
+                Console.WriteLine("File Does not exist or directory related error :");
+                Console.WriteLine("Verbose Error:" + error.Message);
+            }
             for (int i = 0; i < directoryCount; i++)
             {
                 string clean = Regex.Replace(directoryInfo[i], @"C:\\.*[^0-9]", " ");
@@ -95,34 +113,42 @@ namespace backupdstapplication
             {
                 Console.WriteLine("For Cluster" + (i+1) +" Following files are present ---->"+ "\n");
                 Console.WriteLine("--------------------------------------------------------");
-                int ClusterCount = System.IO.Directory.GetDirectories(@"C:\Users\" + this.CleanUsername[1] + @"\Documents\Klei\DoNotStarveTogether\"+ this.Clusternames[i]+@"\").Length;
-                string[] directoryInfo = System.IO.Directory.GetDirectories(@"C:\Users\" + this.CleanUsername[1] + @"\Documents\Klei\DoNotStarveTogether\" + this.Clusternames[i] + @"\");
-                for (int x = 0; x < directoryInfo.Length; x++)
+                try
                 {
-                    if (directoryInfo[x].Contains("Cluster_"))
+                    int ClusterCount = System.IO.Directory.GetDirectories(@"C:\Users\" + this.CleanUsername[1] + @"\Documents\Klei\DoNotStarveTogether\" + this.Clusternames[i] + @"\").Length;
+                    string[] directoryInfo = System.IO.Directory.GetDirectories(@"C:\Users\" + this.CleanUsername[1] + @"\Documents\Klei\DoNotStarveTogether\" + this.Clusternames[i] + @"\");
+                    for (int x = 0; x < directoryInfo.Length; x++)
                     {
-                        string ClusterNumber = directoryInfo[x].Substring(directoryInfo[x].IndexOf("Cluster"));
-                        ClusterNumber=Regex.Replace(ClusterNumber, @"[a-zA-Z_]*", " ");
-                        try
+                        if (directoryInfo[x].Contains("Cluster_"))
                         {
-                            StreamReader reader = new StreamReader(directoryInfo[x] + @"\cluster.ini");
-                            while ((line = reader.ReadLine()) != null)
+                            string ClusterNumber = directoryInfo[x].Substring(directoryInfo[x].IndexOf("Cluster"));
+                            ClusterNumber = Regex.Replace(ClusterNumber, @"[a-zA-Z_]*", " ");
+                            try
                             {
-                                if (line.Contains("cluster_name"))
+                                StreamReader reader = new StreamReader(directoryInfo[x] + @"\cluster.ini");
+                                while ((line = reader.ReadLine()) != null)
                                 {
-                                    Console.WriteLine(Convert.ToInt32(ClusterNumber)+ ":"+line +"\n");
-                                    savenames.Add(line, Convert.ToInt32(ClusterNumber));
-                                    break;
+                                    if (line.Contains("cluster_name"))
+                                    {
+                                        Console.WriteLine(Convert.ToInt32(ClusterNumber) + ":" + line + "\n");
+                                        savenames.Add(line, Convert.ToInt32(ClusterNumber));
+                                        break;
+                                    }
                                 }
                             }
+                            catch (Exception error)
+                            {
+                                Console.WriteLine("No Save File for : " + directoryInfo[x] + "\n");
+                            }
                         }
-                        catch (FileNotFoundException )
-                        {
-                            Console.WriteLine("No Save File for : " + directoryInfo[x]+ "\n");
-                        }
-                        
                     }
                 }
+                catch (Exception error)
+                {
+                    Console.WriteLine("File Does not exist or directory related error :");
+                    Console.WriteLine("Verbose Error:" + error.Message);
+                }
+                
                 Console.WriteLine("--------------------------------------------------------"+"\n");
             }
             Console.WriteLine("Choose Cluster to take backup from:");
@@ -145,7 +171,6 @@ namespace backupdstapplication
         {
             int SaveCount;
             DSTBACKUP mainobj = new DSTBACKUP();
-
             mainobj.greetings();
             SaveCount = mainobj.CheckBackupSaves();
             if (SaveCount == 0)
@@ -157,11 +182,11 @@ namespace backupdstapplication
                 Console.WriteLine("Total saved game folder found:" + SaveCount +"\n");
                 mainobj.FindSaveClusters();
             }
-            Console.Write("Copying successful!");
+            Console.Write("Backup successful!"+"\n");
             Console.WriteLine("Press any key to exit.");
             Console.ReadLine();
         }
-
+        
         private void greetings()
         {
             Console.WriteLine(@"

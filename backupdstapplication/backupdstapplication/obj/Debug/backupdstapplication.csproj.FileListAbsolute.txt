@@ -5,3 +5,10 @@ C:\Users\Shree\source\repos\backupdstapplication\backupdstapplication\obj\Debug\
 C:\Users\Shree\source\repos\backupdstapplication\backupdstapplication\obj\Debug\backupdstapplication.csproj.CoreCompileInputs.cache
 C:\Users\Shree\source\repos\backupdstapplication\backupdstapplication\obj\Debug\backupdstapplication.exe
 C:\Users\Shree\source\repos\backupdstapplication\backupdstapplication\obj\Debug\backupdstapplication.pdb
+D:\Github\DSTBackupApplication\backupdstapplication\backupdstapplication\obj\Debug\backupdstapplication.csprojAssemblyReference.cache
+D:\Github\DSTBackupApplication\backupdstapplication\backupdstapplication\obj\Debug\backupdstapplication.csproj.CoreCompileInputs.cache
+D:\Github\DSTBackupApplication\backupdstapplication\backupdstapplication\obj\Debug\backupdstapplication.exe
+D:\Github\DSTBackupApplication\backupdstapplication\backupdstapplication\obj\Debug\backupdstapplication.pdb
+D:\Github\DSTBackupApplication\backupdstapplication\backupdstapplication\bin\Debug\backupdstapplication.exe.config
+D:\Github\DSTBackupApplication\backupdstapplication\backupdstapplication\bin\Debug\backupdstapplication.exe
+D:\Github\DSTBackupApplication\backupdstapplication\backupdstapplication\bin\Debug\backupdstapplication.pdb
