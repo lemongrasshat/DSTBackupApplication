@@ -24,7 +24,8 @@ namespace backupdstapplication
         string[] CleanUsername;
         private int directoryCount;
         private string[] directoryInfo;
-        private Boolean verboseflag=false;
+        private Boolean saveflag=false;
+       
         //Code for copying save folder to backup folder.
         //Source : https://docs.microsoft.com/en-us/dotnet/standard/io/how-to-copy-directories
         private static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
@@ -164,6 +165,7 @@ namespace backupdstapplication
                 string source = @"C:\Users\" + this.CleanUsername[1] + @"\Documents\Klei\DoNotStarveTogether\" + this.Clusternames[(Clusterchoice - 1)] + @"\Cluster_" + Savechoice;
                 string destination = @"C:\Users\Shree\Desktop\DSTBACKUP\"+ this.Clusternames[(Clusterchoice - 1)] +"_Cluster_" +Savechoice+"_"+ DateTime.Now.ToString("yyyyMMddHHmmssfff");
                 DirectoryCopy(source,destination,true);
+                this.saveflag=true;
             }
         }
 
@@ -182,7 +184,13 @@ namespace backupdstapplication
                 Console.WriteLine("Total saved game folder found:" + SaveCount +"\n");
                 mainobj.FindSaveClusters();
             }
+            if(mainobj.saveflag==true)
+               {
             Console.Write("Backup successful!"+"\n");
+                }
+            else{
+                Console.Write("No backup done."+"\n");
+            }
             Console.WriteLine("Press any key to exit.");
             Console.ReadLine();
         }
