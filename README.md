@@ -7,4 +7,4 @@ Download and build solution.
 
 or
 Use direct executable:
-https://drive.google.com/file/d/1ycyoP5TK53pToHkQeiv0g7kZITPkXxgg/view?usp=sharing
+https://drive.google.com/file/d/13z1AGqd7NgstzQPJBRIKFAjMp1nSLA-k/view?usp=sharing
