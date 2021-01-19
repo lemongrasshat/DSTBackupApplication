@@ -6,5 +6,4 @@ How to Use:
 Download and build solution.
 
 or
-Use direct executable:
-https://drive.google.com/file/d/13z1AGqd7NgstzQPJBRIKFAjMp1nSLA-k/view?usp=sharing
+Download executable from bin/debug/ folder
