@@ -1,0 +1,7 @@
+C:\Users\Shree\source\repos\backupdstapplication\backupdstapplication\bin\Release\backupdstapplication.exe.config
+C:\Users\Shree\source\repos\backupdstapplication\backupdstapplication\bin\Release\backupdstapplication.exe
+C:\Users\Shree\source\repos\backupdstapplication\backupdstapplication\bin\Release\backupdstapplication.pdb
+C:\Users\Shree\source\repos\backupdstapplication\backupdstapplication\obj\Release\backupdstapplication.csprojAssemblyReference.cache
+C:\Users\Shree\source\repos\backupdstapplication\backupdstapplication\obj\Release\backupdstapplication.csproj.CoreCompileInputs.cache
+C:\Users\Shree\source\repos\backupdstapplication\backupdstapplication\obj\Release\backupdstapplication.exe
+C:\Users\Shree\source\repos\backupdstapplication\backupdstapplication\obj\Release\backupdstapplication.pdb
